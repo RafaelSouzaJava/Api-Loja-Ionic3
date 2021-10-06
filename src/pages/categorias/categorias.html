@@ -7,6 +7,16 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-<p>Pagina de Categorias</p>
+<ion-content padding class="list-avatar-page">
+  <ion-list>
+    <ion-item>
+      <button class="list-items" ion-item *ngFor="let item of items">
+        <ion-thumbnail item-start>
+          <img  src="{{bucketUrl}}/cat{{item.id}}.jpg">
+        </ion-thumbnail>
+        <h2>{{item.nome}}</h2>
+      </button>
+    </ion-item>
+  </ion-list>
+  
 </ion-content>

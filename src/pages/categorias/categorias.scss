@@ -1,3 +1,23 @@
 page-categorias {
+  .list-avatar-page {
+    ion-list {
+      font-size: 12px;
+      align-self: flex-start;
+      margin-top: 14px;
+      border: 20px;
+    }
+  }
+  h2 {
+    font-size: 14px;
+    text-align: center;
+    color: black;
+  }
+  .list-items {
+      border-bottom: 0.5px;
+      border-top: 0.1px;
+      border-style: solid;
+      border-color: aquamarine;
+  }
+
 
 }
