@@ -29,16 +29,23 @@ export class ProfilePage {
           // buscar imagem no bucket S3
           this.getImageIfExists();
         },
-          error => { });
+          error => {
+            if (error.status == 403) {
+              this.navCtrl.setRoot('HomePage');
+            }
+          });
+    }
+    else {
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
   getImageIfExists() {
     this.clienteService.getImageFromBucket(this.cliente.id)
-    .subscribe(response => {
-      this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
-    },
-    error => {});
+      .subscribe(response => {
+        this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
+      },
+        error => { });
   }
 
 }

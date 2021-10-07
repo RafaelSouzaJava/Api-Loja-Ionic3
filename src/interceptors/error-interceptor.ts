@@ -3,12 +3,13 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
 import { Observable } from 'rxjs/Rx'; // IMPORTANTE: IMPORT ATUALIZADO
 
 import { AlertController } from 'ionic-angular/components/alert/alert-controller';
+import { StorageService } from '../services/storage.service';
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(public alertCtrl: AlertController) {
+    constructor(public storage: StorageService,public alertCtrl: AlertController) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -24,10 +25,22 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }
 
                 console.log("Erro detectado pelo interceptor:");
-                
+
+                switch (errorObj.status) {
+                    case 403:
+                        this.handle403();
+                        break;
+                }
+
                 return Observable.throw(errorObj);
             }) as any;
     }
+
+
+    handle403() {
+        this.storage.setLocalUser(null);
+    }
+
 }
 
 export const ErrorInterceptorProvider = {
