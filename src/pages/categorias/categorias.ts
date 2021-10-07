@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CategoriaService } from '../../services/domain/categoria.service';
 import { API_CONFIG } from '../../config/api.config';
+import { StorageService } from '../../services/storage.service';
 
 
 @IonicPage()
@@ -18,7 +19,8 @@ export class CategoriasPage {
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
-    public categoriaService: CategoriaService
+    public categoriaService: CategoriaService,
+    public storage: StorageService
     ) {
   }
 
@@ -28,7 +30,12 @@ export class CategoriasPage {
     this.categoriaService.findAll().subscribe(response => {
       this.items = response;
     },
-    error => { }); 
+    error => {
+      if (error.status == 404) {
+        this.storage.setLocalUser(null);
+        this.navCtrl.setRoot('HomePage');
+      }
+     }); 
   }
 
 }
