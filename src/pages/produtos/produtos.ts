@@ -12,13 +12,18 @@ import { IonicPage, LoadingController, NavController, NavParams } from 'ionic-an
 export class ProdutosPage {
 
   items: ProdutoDTO[];
+  page : number = 0;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
     public navParams: NavParams, public produtoService: ProdutoService,
     public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
     let categoria_id = this.navParams.get('categoria_id');
     let loader = this.presentLoading();
     this.produtoService.findByCategoria(categoria_id)
@@ -27,33 +32,42 @@ export class ProdutosPage {
         loader.dismiss();
         this.loadImageUrl();
       },
-      error => {
-        loader.dismiss();
-      });
+        error => {
+          loader.dismiss();
+        });
   }
 
   loadImageUrl() {
-    for (var i=0; i<this.items.length; i++) {
+    for (var i = 0; i < this.items.length; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
           item.imagemUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
 
         },
-        error => {});
+          error => { });
     }
   }
 
-  showDetail(produto_id : string) {
-    this.navCtrl.push('ProdutoDetailPage', {produto_id: produto_id});
+  showDetail(produto_id: string) {
+    this.navCtrl.push('ProdutoDetailPage', { produto_id: produto_id });
   }
 
   presentLoading() {
     let loader = this.loadingCtrl.create({
-      content: "Aguarde..."      
+      content: "Aguarde..."
     });
     loader.present();
     return loader;
+  }
+
+  doRefresh(refresher) {
+    this.page = 0;
+    this.items = [];
+    this.loadData();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
   }
 
 }
