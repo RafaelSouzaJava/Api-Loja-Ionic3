@@ -69,11 +69,12 @@ export class ProfilePage {
 
     this.cameraOn = true;
 
-    const options: CameraOptions = {
-      quality: 100,
+    const options: CameraOptions = {     
+      correctOrientation: true,
+      quality: 100, // Qualidade maxima
       destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
     }
     
     this.camera.getPicture(options).then((imageData) => {
@@ -94,6 +95,7 @@ export class ProfilePage {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
+      
     }
     
     this.camera.getPicture(options).then((imageData) => {

@@ -32,12 +32,18 @@
       </ion-item>
     </ion-list>
 
-    <ion-item>
-      <ion-label stacked>CPF ou CNPJ</ion-label>
+    <ion-item *ngIf="formGroup.controls.tipo.value == '1' ">
+      <ion-label stacked>CPF</ion-label>
       <ion-input formControlName="cpfOuCnpj" type="text"></ion-input>
     </ion-item>
     <p class="danger" *ngIf="formGroup.controls.cpfOuCnpj.dirty && formGroup.controls.cpfOuCnpj.errors" margin-left>Valor inválido</p>
-    
+
+    <ion-item *ngIf="formGroup.controls.tipo.value == '2' ">
+      <ion-label stacked>CNPJ</ion-label>
+      <ion-input formControlName="cpfOuCnpj" type="text"></ion-input>
+    </ion-item>
+    <p class="danger" *ngIf="formGroup.controls.cpfOuCnpj.dirty && formGroup.controls.cpfOuCnpj.errors" margin-left>Valor inválido</p>
+
     <ion-item>
       <ion-label stacked>Senha*</ion-label>
       <ion-input formControlName="senha" type="password"></ion-input>
